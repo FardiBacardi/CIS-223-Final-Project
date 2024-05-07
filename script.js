@@ -197,16 +197,19 @@ function mainCourse() {
   optionB = new ChoiceBox(350, "Vegan Meat Lover");
   optionB.show();
   if (mouse.presses()) {
-    // If the player picks the correct option
-    affection++;
-    lover.happy();
-    message =
-      "Whoa, that looks delicious! Mind if I take a bite? Or two bites? Or three?";
-  } else if (mouse.presses()) {
-    // If the player picks the wrong option
-    affection--;
-    lover.disgust();
-    message = "Oh... that looks... interesting...";
+    if (mouseClicked()) {
+      // If the player picks the correct option
+      affection++;
+      lover.happy();
+      message =
+        "Whoa, that looks delicious! Mind if I take a bite? Or two bites? Or three?";
+    } else if (mouse.presses()) {
+    } else if (mouseClicked()) {
+      // If the player picks the wrong option
+      affection--;
+      lover.disgust();
+      message = "Oh... that looks... interesting...";
+    }
   }
 }
 
@@ -232,19 +235,22 @@ function dessert() {
   optionB = new ChoiceBox(100, "Astronaut Ice Cream");
   optionB.show();
   if (mouse.presses()) {
-    // If the player picks the correct option
-    affection++;
-    lover.happy();
-    dialogueBox(x, y, "It's like you read my mind! Can humans read minds?");
-  } else if (mouse.presses()) {
-    // If the player picks the wrong option
-    affection--;
-    lover.disgust();
-    dialogueBox(
-      x,
-      y,
-      "You can have it, I'm actually really full. And allergic. And it has gluten and I can't have that either."
-    );
+    if (mouseClicked()) {
+      // If the player picks the correct option
+      affection++;
+      lover.happy();
+      dialogueBox(x, y, "It's like you read my mind! Can humans read minds?");
+    } else if (mouse.presses()) {
+    } else if (mouseClicked()) {
+      // If the player picks the wrong option
+      affection--;
+      lover.disgust();
+      dialogueBox(
+        x,
+        y,
+        "You can have it, I'm actually really full. And allergic. And it has gluten and I can't have that either."
+      );
+    }
   }
 }
 
