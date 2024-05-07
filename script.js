@@ -196,13 +196,13 @@ function mainCourse() {
   // Bad choice
   optionB = new ChoiceBox(350, "Vegan Meat Lover");
   optionB.show();
-  if (mouseClicked()) {
+  if (mouse.presses()) {
     // If the player picks the correct option
     affection++;
     lover.happy();
     message =
       "Whoa, that looks delicious! Mind if I take a bite? Or two bites? Or three?";
-  } else if (mouseClicked()) {
+  } else if (mouse.presses()) {
     // If the player picks the wrong option
     affection--;
     lover.disgust();
@@ -231,12 +231,12 @@ function dessert() {
   // Bad choice
   optionB = new ChoiceBox(100, "Astronaut Ice Cream");
   optionB.show();
-  if (mouseClicked()) {
+  if (mouse.presses()) {
     // If the player picks the correct option
     affection++;
     lover.happy();
     dialogueBox(x, y, "It's like you read my mind! Can humans read minds?");
-  } else if (mouseClicked()) {
+  } else if (mouse.presses()) {
     // If the player picks the wrong option
     affection--;
     lover.disgust();
