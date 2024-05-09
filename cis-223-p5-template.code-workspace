@@ -1,10 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "cis-223-p5-template"
-	}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "C:/Users/absgb/Downloads/OOTW Assets/Endings"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "cis-223-p5-template"
+  }
 }
