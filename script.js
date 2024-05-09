@@ -316,7 +316,7 @@ let deathDia = [
 let appDia = ["So, what do you wanna get for appetizers?"];
 
 function draw() {
-  if (mouse.presses()) {
+  if (kb.presses(" ")) {
     dial.index++;
     console.log(dial.index);
     if (dial.index === 4) {
