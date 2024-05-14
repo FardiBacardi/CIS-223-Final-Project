@@ -17,12 +17,26 @@ let foodHolder;
 let cup;
 let talkBox;
 
+gameStart();
+
+// Asks the player for their name
+function gameStart() {
+  // Repeats until the player confirms their name
+  while (correct === false) {
+    // Asks the player to input their name
+    pName = prompt("Please enter your name.");
+    // Asks the player for confirmation on name choice
+    correct = confirm(`Is this correct?: \n${pName}`);
+  }
+}
+
 let introDia = [
   `Hey, you're ${pName}, right?`,
   `Huh… I gotta say, you're a lot more… dehydrated… than you looked in your pictures.`,
   `Not that it matters or anything, I'm sure that's common for you humans.`,
   `I'm Philix, by the way. Though, I guess you already knew that, right? 
   It's nice to finally meet you in person and not planets and planets away, haha!`,
+  `So, what do you wanna get for appetizers?`,
 ];
 
 let marriageDia = [
@@ -60,8 +74,8 @@ let appDia = ["So, what do you wanna get for appetizers?"];
 class Alien {
   x = width / 2;
   y = 300;
-  constructor(){
-    this.hotDate = new Sprite(this.x, this.y, 'static');
+  constructor() {
+    this.hotDate = new Sprite(this.x, this.y, "static");
     // Creates the sprite and designates where it goes
     this.hotDate.img = "Lover Sprites/hottie neutral.png";
     this.hotDate.layer = 3;
@@ -88,7 +102,7 @@ class Alien {
 }
 
 function dialogueBox(x, y, message) {
-  const diaBox = new Sprite(x, y, 'static');
+  const diaBox = new Sprite(x, y, "static");
   diaBox.layer = 5;
   diaBox.img = "Boxes/dialogue box.png";
   diaBox.w = diaBox.img.width;
@@ -104,10 +118,10 @@ function dialogueBox(x, y, message) {
 }
 
 function choiceBox(customY, customC, opinion) {
-  const choiceSprite = new Sprite(340, customY, 'static');
+  const choiceSprite = new Sprite(340, customY, "static");
   choiceSprite.choices = customC;
   choiceSprite.img = choBo;
-  choiceSprite.draw = function() {
+  choiceSprite.draw = function () {
     // Create the sprite
     image(choiceSprite.img, choiceSprite.x, 0);
     // Text properties
@@ -116,24 +130,21 @@ function choiceBox(customY, customC, opinion) {
     fill(158, 0, 142);
     text(choiceSprite.choices, choiceSprite.x, 0);
     choiceSprite.layer = 6;
-  }
-  choiceSprite.update = function() {
-   if (choiceSprite.mouse.presses()) {
-    opinion()
-   }
-  }
+  };
+  // When the player presses one of the choice boxes, the alien will respond
+  choiceSprite.update = function () {
+    if (choiceSprite.mouse.presses()) {
+      opinion();
+    }
+  };
   return choiceSprite;
 }
-
-
-
-
 
 class Chair {
   x = width / 2;
   y = 480;
-  constructor(){
-    this.chair = new Sprite(this.x, this.y, 'static');
+  constructor() {
+    this.chair = new Sprite(this.x, this.y, "static");
     this.chair.img = "Background and objects/chair.png";
     this.chair.layer = 1;
   }
@@ -142,8 +153,8 @@ class Chair {
 class Tbl {
   x = width / 2;
   y = 665;
-  constructor(){
-    this.tbl = new Sprite(this.x, this.y, 'static');
+  constructor() {
+    this.tbl = new Sprite(this.x, this.y, "static");
     this.tbl.layer = 2;
     this.tbl.img = "Background and objects/table.png";
   }
@@ -152,8 +163,8 @@ class Tbl {
 class Glasses {
   x = 600;
   y = 620;
-  constructor(){
-    this.glasses = new Sprite(this.x, this.y, 'static');
+  constructor() {
+    this.glasses = new Sprite(this.x, this.y, "static");
     this.glasses.img = "Background and objects/glasses.png";
     this.glasses.layer = 4;
   }
@@ -163,17 +174,15 @@ class Glasses {
 function preload() {
   title = loadImage("ph title.png");
   bg = loadImage("Background and objects/background.png");
-  choBo = loadImage("Boxes/choice box.png")
-  romPartner = loadImage("Lover Sprites/hottie neutral.png")
-  recliner = loadImage("Background and objects/chair.png")
-  foodHolder = loadImage("Background and objects/table.png")
-  cup = loadImage("Background and objects/glasses.png")
-  talkBox = loadImage("Boxes/dialogue box.png")
+  choBo = loadImage("Boxes/choice box.png");
+  romPartner = loadImage("Lover Sprites/hottie neutral.png");
+  recliner = loadImage("Background and objects/chair.png");
+  foodHolder = loadImage("Background and objects/table.png");
+  cup = loadImage("Background and objects/glasses.png");
+  talkBox = loadImage("Boxes/dialogue box.png");
 }
 
 function setup() {
- // noLoop();
-  gameStart();
   dateStart();
   createCanvas(1366, 784);
   background(bg);
@@ -182,17 +191,6 @@ function setup() {
   seat = new Chair();
   surface = new Tbl();
   glass = new Glasses();
-}
-
-// Asks the player for their name
-function gameStart() {
-  // Repeats until the player confirms their name
-  while (correct === false) {
-    // Asks the player to input their name
-    pName = prompt("Please enter your name.");
-    // Asks the player for confirmation on name choice
-    correct = confirm(`Is this correct?: \n${pName}`);
-  }
 }
 
 // Starts the date with alien
@@ -204,18 +202,17 @@ function dateStart() {
 }
 
 function appetizers() {
-  // Ask the player which appetizer they want
-  dial = dialogueBox(340, 280, appDia);
-  // After the player clicks the
   // Good choice
-  optionA = choiceBox(150, "Yum'merz", function(){
-    console.log("W")
+  optionA = choiceBox(150, "Yum'merz", function () {
+    console.log("W");
     affection++;
+    console.log(affection);
   });
   // Bad choice
-  optionB = choiceBox(350, "Not'Chos", function(){
-    console.log("L")
+  optionB = choiceBox(350, "Not'Chos", function () {
+    console.log("L");
     affection--;
+    console.log(affection);
   });
 }
 
@@ -242,33 +239,30 @@ function mainCourse() {
   // Ask the player which meal they want
   dialogueBox(340, 280, "What're you getting for your main course?");
   // Good choice
-  // optionA = new ChoiceBox(150, "Elusive Steak");
-  // optionA.show();
-  // Bad choice
-  // optionB = new ChoiceBox(350, "Vegan Meat Lover");
-  // optionB.show();
-  if (mouse.presses()) {
-    // If the player picks the correct option
+  optionA = choiceBox(150, "Elusive Steak", function () {
+    console.log("W");
     affection++;
+    console.log(affection);
     lover.happy();
     message =
       "Whoa, that looks delicious! Mind if I take a bite? Or two bites? Or three?";
-  } else if (mouse.presses()) {
-    // If the player picks the wrong option
+  });
+  // Bad choice
+  optionB = choiceBox(350, "Vegan Meat Lover's Meatball Supreme", function () {
+    console.log("L");
     affection--;
+    console.log(affection);
     lover.disgust();
     message = "Oh... that looks... interesting...";
-  }
+  });
 }
 
 function hobbies() {
   // optionA = new ChoiceBox(150, "Gaming");
-  // optionA.show();
   affection--;
   message = "Oh. That's... cool... I guess...";
   // If the player picks the wrong option
   // optionB = new ChoiceBox(350, "Killing people with rocks");
-  // optionB.show();
   affection++;
   message = "Damn... you must be pretty strong, huh?";
 }
@@ -305,47 +299,32 @@ function theBill() {
     280,
     "WHOA!!! THIS BILL IS OUTRAGEOUS!!! Ugh, don't worry, I'll pay for it."
   );
-  optionB = choiceBox(150, "Let them pay for it")
+  optionB = choiceBox(150, "Let them pay for it");
   affection--;
-  optionA = choiceBox(350, "Give them counterfeit money")
+  optionA = choiceBox(350, "Give them counterfeit money");
   affection++;
 }
 
-function theEnd() {
-  // If the player has max affection
-  if (affection === 6) {
-    lover.happy();
-    dialogueBox(340, 280, marriageDia);
-    // If the player has high affection
-  } else if (affection < 6 && affection > 3) {
-    lover.neutral();
-    dialogueBox(340, 280, lovinDia);
-    // If the player has low affection
-  } else if (affection < 4 && affection > 0) {
-    lover.disgust();
-    dialogueBox(340, 280, rejectDia);
-    // If the player gains no affection
-  } else {
-    lover.angry();
-    dialogueBox(340, 280, deathDia);
-  }
+function goodEnd() {
+  lover.happy();
+  dialogueBox(340, 280, marriageDia);
+}
+
+function badEnd() {
+  lover.angry();
+  dialogueBox(340, 280, deathDia);
 }
 
 function keyPressed() {
   if (key == " ") {
     dial.index++;
-    // redraw();
     console.log(dial.index);
-    if (dial.index === 4) {
-      delete dial;
-    }
-    if (dial.index > 4) {
+    if (dial.index === 5) {
       appetizers();
-      // noLoop();
     }
   }
 }
 
 function draw() {
-background(bg)
+  background(bg);
 }
