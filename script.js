@@ -1,3 +1,15 @@
+// The tool I used for this project is p5play. I learned that p5play is an extension of p5 that allows users to create games
+// and utilizes many new tools, most notably sprites, which are objects that can be moved around the canvas. There are many
+// functions that center around the use of sprites, such as update, which updates the sprite's animation,
+// and p5play also allows a custom draw function for each sprite as well. This project includes several variables and constants that
+// are used for storing information like the player's name, dialogue, sprites, and player choices. It also includes conditionals that
+// are used to determine whether the player is pressing the space bar, clicking on a sprite, or if a variable has reached a specific
+// number. Iteration is used while prompting the player for their name, where it will continue to ask the player for their name until
+// they submit something. This project also demonstrates the use of defining functions as demonstrated with the dialogue and choice
+// box functions, both of which contain parameters and return values. Arrays are used to contain the alien love interest's dialogue,
+// where the text will change to the next line of dialogue after the player presses the space bar. Finally, the project also contains
+// classes, which are used to customize the sprites, such as the alien and the furniture.
+
 let hotDate;
 let bg;
 let title;
@@ -30,23 +42,31 @@ function gameStart() {
   }
 }
 
-let introDia = [
+let dialogue = [
   `Hey, you're ${pName}, right?`,
   `Huh… I gotta say, you're a lot more… dehydrated… than you looked in your pictures.`,
   `Not that it matters or anything, I'm sure that's common for you humans.`,
   `I'm Philix, by the way. Though, I guess you already knew that, right? 
   It's nice to finally meet you in person and not planets and planets away, haha!`,
   `So, what do you wanna get for appetizers?`,
-];
-
-let marriageDia = [
+  ``,
   `Wow, I think you're my dream lover… You're so perfect in every way…`,
   `I- Let's get married. Right here, right now.`,
   `${pName}... I love you.`,
-  `I have never met anyone in my life who has made me feel the way you do, and I really, truly think that you are 
-  the one.`,
+  `I have never met anyone in my life who has made me feel the way you do, 
+  and I really, truly think that you are the one.`,
   `Now, let's ride off into the sunset and have a million children together.`,
+  ``,
+  `You are the most vile, disgusting, horrendous, dehydrated organism to ever exist 
+  not only on this planet or your own, but to ever be spat out by the cosmos.`,
+  `You shame not only your birth giver, but your entire bloodline and entire race.`,
+  `I have never met anyone in my life who has made me feel the way you do, 
+  and that's not a compliment.`,
+  `In fact, you don't even deserve to live on any planet!`,
+  `It's time to die, ${pName}.`,
 ];
+
+let marriageDia = [];
 
 let lovinDia = [
   `You know, I really enjoyed the night with you, ${pName}.`,
@@ -68,8 +88,6 @@ let deathDia = [
   `In fact, you don't even deserve to live on any planet!`,
   `It's time to die, ${pName}.`,
 ];
-
-let appDia = ["So, what do you wanna get for appetizers?"];
 
 class Alien {
   x = width / 2;
@@ -102,6 +120,7 @@ class Alien {
 }
 
 function dialogueBox(x, y, message) {
+  // Creates the dialogue box sprite
   const diaBox = new Sprite(x, y, "static");
   diaBox.layer = 5;
   diaBox.img = "Boxes/dialogue box.png";
@@ -109,6 +128,7 @@ function dialogueBox(x, y, message) {
   diaBox.index = 0;
   diaBox.draw = function () {
     image(diaBox.img, diaBox.x, diaBox.y);
+    // Text properties
     textSize(30);
     textAlign(CENTER);
     fill(158, 0, 142);
@@ -118,6 +138,7 @@ function dialogueBox(x, y, message) {
 }
 
 function choiceBox(customY, customC, opinion) {
+  // Creates the choice box sprite
   const choiceSprite = new Sprite(340, customY, "static");
   choiceSprite.choices = customC;
   choiceSprite.img = choBo;
@@ -196,23 +217,21 @@ function setup() {
 // Starts the date with alien
 function dateStart() {
   // Create a dialogue box
-  dial = dialogueBox(340, 280, introDia);
-  // When the dialogue box is clicked, it moves on the to next dialogue
-  // When the last bit of dialogue is clicked, it moves on to the next function
+  dial = dialogueBox(340, 280, dialogue);
 }
 
 function appetizers() {
   // Good choice
   optionA = choiceBox(150, "Yum'merz", function () {
-    console.log("W");
     affection++;
-    console.log(affection);
+    console.log("W");
+    lover.happy();
   });
   // Bad choice
   optionB = choiceBox(350, "Not'Chos", function () {
-    console.log("L");
     affection--;
-    console.log(affection);
+    console.log("L");
+    lover.disgust();
   });
 }
 
@@ -222,17 +241,19 @@ function whyDate() {
     280,
     "I gotta ask... what made you expand out to the cosmos for dating?"
   );
-  // optionA = new ChoiceBox(150, "Aliens are hot");
-  // optionA.show();
-  affection++;
-  lover.flirty();
-  message = "Well aren't you adorable?";
-  // If the player picks the wrong option
-  // optionB = new ChoiceBox(350, "Nobody on Earth wanted me");
-  // optionB.show();
-  affection--;
-  lover.disgust();
-  message = "That's kind of depressing...";
+  // Good choice
+  optionA = choiceBox(150, "Aliens are hot", function () {
+    affection++;
+    lover.flirty();
+    message = "Well aren't you adorable?";
+  });
+
+  // Bad choice
+  optionB = new choiceBox(350, "Nobody on Earth wanted me", function () {
+    affection--;
+    lover.disgust();
+    message = "That's kind of depressing...";
+  });
 }
 
 function mainCourse() {
@@ -240,57 +261,50 @@ function mainCourse() {
   dialogueBox(340, 280, "What're you getting for your main course?");
   // Good choice
   optionA = choiceBox(150, "Elusive Steak", function () {
-    console.log("W");
     affection++;
-    console.log(affection);
     lover.happy();
     message =
       "Whoa, that looks delicious! Mind if I take a bite? Or two bites? Or three?";
   });
   // Bad choice
   optionB = choiceBox(350, "Vegan Meat Lover's Meatball Supreme", function () {
-    console.log("L");
     affection--;
-    console.log(affection);
     lover.disgust();
     message = "Oh... that looks... interesting...";
   });
 }
 
 function hobbies() {
-  // optionA = new ChoiceBox(150, "Gaming");
-  affection--;
-  message = "Oh. That's... cool... I guess...";
-  // If the player picks the wrong option
-  // optionB = new ChoiceBox(350, "Killing people with rocks");
-  affection++;
-  message = "Damn... you must be pretty strong, huh?";
+  dialogueBox(340, 280, "So what do you do for fun?");
+  // Bad choice
+  optionA = choiceBox(150, "Gaming", function () {
+    affection--;
+    lover.disgust();
+    message = "Oh. That's... cool... I guess...";
+  });
+  // Good choice
+  optionB = choiceBox(350, "Kill people with rocks", function () {
+    affection++;
+    message = "Damn... you must be pretty strong, huh?";
+  });
 }
 
 function dessert() {
   // Ask the player which dessert they want
   dialogueBox(340, 280, "Dessert time! What do you think we should get?");
   // Good choice
-  // optionA = new ChoiceBox(100, "Scorching Lava Cake");
-  // optionA.show();
-  // Bad choice
-  // optionB = new ChoiceBox(100, "Astronaut Ice Cream");
-  // optionB.show();
-  if (mouse.presses()) {
-    // If the player picks the correct option
+  optionA = choiceBox(150, "Scorching Lava Cake", function () {
     affection++;
     lover.happy();
-    dialogueBox(x, y, "It's like you read my mind! Can humans read minds?");
-  } else if (mouse.presses()) {
-    // If the player picks the wrong option
+    message = "It's like you read my mind! Can humans read minds?";
+  });
+  // Bad choice
+  optionB = choiceBox(350, "Astronaut Ice Cream", function () {
     affection--;
     lover.disgust();
-    dialogueBox(
-      x,
-      y,
-      "You can have it, I'm actually really full. And allergic. And it has gluten and I can't have that either."
-    );
-  }
+    message =
+      "You can have it, I'm actually really full. And allergic. And it has gluten and I can't have that either.";
+  });
 }
 
 function theBill() {
@@ -299,26 +313,35 @@ function theBill() {
     280,
     "WHOA!!! THIS BILL IS OUTRAGEOUS!!! Ugh, don't worry, I'll pay for it."
   );
-  optionB = choiceBox(150, "Let them pay for it");
-  affection--;
-  optionA = choiceBox(350, "Give them counterfeit money");
-  affection++;
+  // Bad choice
+  optionA = choiceBox(150, "Let them pay for it", function () {
+    affection--;
+    lover.angry();
+    message = "Shit... I'm totally broke now...";
+  });
+  // Good choice
+  optionB = choiceBox(350, "Give them counterfeit money", function () {
+    affection++;
+    lover.happy();
+    message = "Yo, is this a forgery?! You're so smart!";
+  });
 }
 
 function goodEnd() {
   lover.happy();
-  dialogueBox(340, 280, marriageDia);
+  dial = dialogueBox(340, 280, marriageDia);
 }
 
 function badEnd() {
   lover.angry();
-  dialogueBox(340, 280, deathDia);
+  dial = dialogueBox(340, 280, deathDia);
 }
 
 function keyPressed() {
+  // When the space bar is pressed, it moves on the to next dialogue
   if (key == " ") {
     dial.index++;
-    console.log(dial.index);
+    // When the last bit of dialogue is reached, it moves on to the next function
     if (dial.index === 5) {
       appetizers();
     }
