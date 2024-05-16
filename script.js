@@ -45,6 +45,7 @@ let round3Done = false;
 let round4Done = false;
 let round5Done = false;
 let finalRoundDone = false;
+let result = false;
 
 gameStart();
 
@@ -262,6 +263,18 @@ function preload() {
   foodHolder = loadImage("Background and objects/table.png");
   cup = loadImage("Background and objects/glasses.png");
   talkBox = loadImage("Boxes/dialogue box.png");
+  matrimony = loadImage("Endings/Marriage_Ending.png");
+  freaky = loadImage("Endings/Lovin_Ending.png");
+  heartbreak = loadImage("Endings/Rejection_Ending.png");
+  mortis = loadImage("Endings/Death_Ending.png");
+}
+
+// The ending screen
+// The photo parameter allows you to change the photo to match the ending the player gets
+function endingScreen(photo) {
+  endScreen = new Sprite(width / 2, height / 2, "static");
+  endScreen.layer = 7;
+  endScreen.img = photo;
 }
 
 function setup() {
@@ -280,39 +293,6 @@ function dateStart() {
   // Create a dialogue box
   introDial = dialogueBox(340, 280, dialogue);
 }
-
-let loveDial;
-
-function marriageEnd() {
-  finalRoundDone = false;
-  lover.happy();
-  loveDial = dialogueBox(340, 280, marriageDia);
-}
-
-let likeDial;
-
-function lovinEnd() {
-  finalRoundDone = false;
-  lover.flirty();
-  likeDial = dialogueBox(340, 280, lovinDia);
-}
-
-let dislikeDial;
-
-function rejectEnd() {
-  finalRoundDone = false;
-  lover.disgust();
-  dislikeDial = dialogueBox(340, 280, rejectDia);
-}
-
-let hateDial;
-
-function deathEnd() {
-  finalRoundDone = false;
-  lover.angry();
-  hateDial = dialogueBox(340, 280, deathDia);
-}
-
 function appetizers() {
   lover.neutral();
   queDial = dialogueBox(340, 280, questionDia);
@@ -479,10 +459,50 @@ function theBill() {
   });
 }
 
+let loveDial = 0;
+
+function marriageEnd() {
+  finalRoundDone = false;
+  lover.happy();
+  loveDial = dialogueBox(340, 280, marriageDia);
+  result = true;
+}
+
+let likeDial = 0;
+
+function lovinEnd() {
+  finalRoundDone = false;
+  lover.flirty();
+  likeDial = dialogueBox(340, 280, lovinDia);
+  result = true;
+}
+
+let dislikeDial = 0;
+
+function rejectEnd() {
+  finalRoundDone = false;
+  lover.disgust();
+  dislikeDial = dialogueBox(340, 280, rejectDia);
+  result = true;
+}
+
+let hateDial = 0;
+
+function deathEnd() {
+  finalRoundDone = false;
+  lover.angry();
+  hateDial = dialogueBox(340, 280, deathDia);
+  result = true;
+}
+
 function keyPressed() {
   // When the space bar is pressed, it moves on the to next dialogue
   if (key == " ") {
     introDial.index++;
+    loveDial.index++;
+    likeDial.index++;
+    dislikeDial.index++;
+    hateDial.index++;
     // When the last bit of dialogue is reached, it moves on to the next function
     if (introDial.index === 5) {
       appetizers();
@@ -518,6 +538,19 @@ function keyPressed() {
     // Ending if the player reaches min affection points
     if (finalRoundDone === true && affection === -6) {
       deathEnd();
+    }
+    // Display the ending screen depending on which ending the player gets
+    if (loveDial.index === 6 && result === true) {
+      endingScreen(matrimony);
+    }
+    if (likeDial.index === 4 && result === true) {
+      endingScreen(freaky);
+    }
+    if (dislikeDial.index === 5 && result === true) {
+      endingScreen(heartbreak);
+    }
+    if (hateDial.index === 6 && result === true) {
+      endingScreen(mortis);
     }
   }
 }
